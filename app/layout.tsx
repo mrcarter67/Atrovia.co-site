@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Atrovia — AI Marketing + Operations for Small Business",
@@ -24,14 +25,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             borderBottom: "1px solid rgba(255,255,255,0.07)",
           }}
         >
-          <a href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>
+          <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ fontSize: 18, fontWeight: 800, color: "#F1F5F9", letterSpacing: -0.3 }}>Atrovia</span>
-          </a>
+          </Link>
 
           <nav style={{ display: "flex", alignItems: "center", gap: 4 }}>
             <NavLink href="/about">About</NavLink>
             <NavLink href="/contact">Contact</NavLink>
-            <a
+            <Link
               href="/beta"
               style={{
                 marginLeft: 8,
@@ -42,10 +43,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 fontSize: 13,
                 borderRadius: 7,
                 textDecoration: "none",
+                cursor: "pointer",
               }}
             >
               Join Beta
-            </a>
+            </Link>
           </nav>
         </header>
 
@@ -106,7 +108,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <a
+    <Link
       href={href}
       style={{
         padding: "6px 12px",
@@ -115,21 +117,22 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
         textDecoration: "none",
         borderRadius: 6,
         fontWeight: 500,
+        cursor: "pointer",
       }}
     >
       {children}
-    </a>
+    </Link>
   );
 }
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <a
+    <Link
       href={href}
-      style={{ display: "block", fontSize: 13, color: "#64748B", textDecoration: "none", marginBottom: 6 }}
+      style={{ display: "block", fontSize: 13, color: "#64748B", textDecoration: "none", marginBottom: 6, cursor: "pointer" }}
     >
       {children}
-    </a>
+    </Link>
   );
 }
 
