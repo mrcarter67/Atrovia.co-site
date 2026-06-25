@@ -11,6 +11,23 @@ const INDUSTRIES = [
   "Manufacturing", "Home Services", "Finance & Accounting", "Education & Tutoring", "Other",
 ];
 
+const INDUSTRY_TO_VERTICAL = {
+  "Real Estate": "real_estate",
+  "Construction & Contracting": "construction",
+  "Healthcare & Medical": "healthcare",
+  "Legal & Professional Services": "legal",
+  "Retail & E-commerce": "retail",
+  "Restaurants & Food Service": "restaurants",
+  "Fitness & Wellness": "fitness",
+  "Marketing & Creative Agency": "marketing_agency",
+  "Technology & SaaS": "technology",
+  "Manufacturing": "manufacturing",
+  "Home Services": "home_services",
+  "Finance & Accounting": "finance",
+  "Education & Tutoring": "education",
+  "Other": "general",
+};
+
 const TEAM_SIZES = [
   "Just me (solo)", "2–5 people", "6–15 people", "16–50 people", "51–200 people", "200+ people",
 ];
@@ -25,8 +42,8 @@ const initialForm = {
   tier: "both",
   first_name: "",
   last_name: "",
-  work_email: "",
-  business_name: "",
+  email: "",
+  company: "",
   industry: "",
   team_size: "",
 };
@@ -54,10 +71,14 @@ export default function BetaSignupForm() {
     setErrorMsg("");
 
     try {
+      const payload = {
+        ...form,
+        vertical: INDUSTRY_TO_VERTICAL[form.industry] || form.industry,
+      };
       const res = await fetch(`${API_URL}/api/beta-signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
 
@@ -126,8 +147,8 @@ export default function BetaSignupForm() {
         <Field label="First name" value={form.first_name} onChange={(v) => update("first_name", v)} required />
         <Field label="Last name" value={form.last_name} onChange={(v) => update("last_name", v)} required />
       </div>
-      <Field label="Work email" type="email" value={form.work_email} onChange={(v) => update("work_email", v)} required />
-      <Field label="Business name" value={form.business_name} onChange={(v) => update("business_name", v)} required />
+      <Field label="Work email" type="email" value={form.email} onChange={(v) => update("email", v)} required />
+      <Field label="Business name" value={form.company} onChange={(v) => update("company", v)} required />
 
       <div style={grid2}>
         <SelectField label="Industry" value={form.industry} onChange={(v) => update("industry", v)} options={INDUSTRIES} placeholder="Select your industry…" />
@@ -154,7 +175,7 @@ export default function BetaSignupForm() {
 
       <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 12, lineHeight: 1.6, textAlign: "center" }}>
         No credit card required. No spam. Unsubscribe anytime.<br />
-        Your {form.tier === "both" ? "$198" : "$99"}/mo price is locked the moment you sign up.
+        Your {form.tier === "both" ? "$198" : "$99"}/mo beta price is locked the moment you sign up.
       </div>
     </form>
   );
