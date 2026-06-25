@@ -75,6 +75,7 @@ export default function BetaSignupForm() {
         ...form,
         vertical: INDUSTRY_TO_VERTICAL[form.industry] || form.industry,
       };
+      console.log("[beta-signup] submitting payload:", payload);
       const res = await fetch(`${API_URL}/api/beta-signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -83,7 +84,11 @@ export default function BetaSignupForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        setErrorMsg(data.message || data.error || "Something went wrong. Please try again.");
+        const details = data.details
+          ? (Array.isArray(data.details) ? data.details.join(", ") : JSON.stringify(data.details))
+          : "";
+        const msg = data.message || data.error || "Something went wrong. Please try again.";
+        setErrorMsg(details ? `${msg} — ${details}` : msg);
         setStatus("error");
         return;
       }
